@@ -1,4 +1,7 @@
 const mongoose=require("mongoose");
+const bcrypt=require('bcrypt');
+const jwt=require('jsonwebtoken');
+
 
 const studentSchema=new mongoose.Schema({
     name:{
@@ -43,5 +46,24 @@ const studentSchema=new mongoose.Schema({
    }
 
 })
+
+studentSchema.pre("save",async function(next){
+    if(!this.isModified("password")) return next();
+    try{
+    this.password=await bcrypt.hash(this.password,10);
+    next();
+    } catch(err){
+        console.log("error in hashing password",err.message);
+        next(err);
+    }
+})
+
+studentSchema.methods.getJWT= async function(){
+     const student=this;
+   const token= await jwt.sign({_id:student._id},"SikshaPlay@786",
+    {expiresIn:'1d'});
+
+    return token;
+}
 
 module.exports=mongoose.model("Student",studentSchema);
