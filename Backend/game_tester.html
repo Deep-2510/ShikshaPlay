@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Ninja - Backend Tester</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f0f2f5; color: #333; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; color: #4a4a4a; }
+        .control-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { display: block; width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #0056b3; }
+        #console-log { margin-top: 20px; background-color: #282c34; color: #abb2bf; padding: 15px; border-radius: 4px; height: 200px; overflow-y: scroll; font-family: monospace; white-space: pre-wrap; }
+        .log-entry { border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Number Ninja - Backend Tester</h1>
+
+        <div class="control-group">
+            <label for="userId">Your User ID:</label>
+            <input type="text" id="userId" placeholder="Paste student _id here">
+        </div>
+        <div class="control-group">
+            <label for="gameId">Game ID (to join or submit answers):</label>
+            <input type="text" id="gameId" placeholder="Game ID will appear in console after creation">
+        </div>
+        <div class="control-group">
+            <label for="answer">Answer:</label>
+            <input type="text" id="answer" placeholder="Enter your answer here">
+        </div>
+
+        <button id="createGameBtn">1. Create Game</button>
+        <button id="joinGameBtn">2. Join Game</button>
+        <button id="submitAnswerBtn">3. Submit Answer</button>
+
+        <h2>Live Log:</h2>
+        <div id="console-log"></div>
+    </div>
+
+    <!-- Import the Socket.IO client library -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        const logContainer = document.getElementById('console-log');
+
+        function log(message, data) {
+            console.log(message, data); // Also log to the browser's real console
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            const timestamp = new Date().toLocaleTimeString();
+            entry.textContent = `[${timestamp}] ${message}: ${JSON.stringify(data, null, 2)}`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Connect to your backend server. Make sure the port matches your server.js
+        const socket = io("http://localhost:3000");
+
+        // --- DOM Elements ---
+        const createGameBtn = document.getElementById('createGameBtn');
+        const joinGameBtn = document.getElementById('joinGameBtn');
+        const submitAnswerBtn = document.getElementById('submitAnswerBtn');
+        const userIdInput = document.getElementById('userId');
+        const gameIdInput = document.getElementById('gameId');
+        const answerInput = document.getElementById('answer');
+
+        // --- Socket Event Emitters (Client -> Server) ---
+        createGameBtn.addEventListener('click', () => {
+            const userId = userIdInput.value;
+            if (!userId) return alert('Please enter a User ID.');
+            log('Emitting [createGame]', { userId });
+            socket.emit('createGame', { userId });
+        });
+
+        joinGameBtn.addEventListener('click', () => {
+            const userId = userIdInput.value;
+            const gameId = gameIdInput.value;
+            if (!userId || !gameId) return alert('Please enter a User ID and Game ID.');
+            log('Emitting [joinGame]', { userId, gameId });
+            socket.emit('joinGame', { userId, gameId });
+        });
+
+        submitAnswerBtn.addEventListener('click', () => {
+            const userId = userIdInput.value;
+            const gameId = gameIdInput.value;
+            const answer = answerInput.value;
+            if (!userId || !gameId || !answer) return alert('Please provide User ID, Game ID, and an Answer.');
+            log('Emitting [submitAnswer]', { userId, gameId, answer });
+            socket.emit('submitAnswer', { userId, gameId, answer });
+            answerInput.value = ''; // Clear input after sending
+        });
+
+
+        // --- Socket Event Listeners (Server -> Client) ---
+        socket.on('connect', () => {
+            log('Connected to server!', { socketId: socket.id });
+        });
+
+        socket.on('gameCreated', (data) => {
+            log('Received [gameCreated]', data);
+            // Automatically fill the gameId input for convenience
+            if (data.gameId) {
+                gameIdInput.value = data.gameId;
+            }
+        });
+
+        socket.on('gameStateUpdate', (data) => {
+            log('Received [gameStateUpdate]', data);
+        });
+
+        socket.on('error', (data) => {
+            log('Received [error]', data);
+            alert(`Server Error: ${data.message}`);
+        });
+
+        socket.on('disconnect', () => {
+            log('Disconnected from server.', {});
+        });
+    </script>
+</body>
+</html>
