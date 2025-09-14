@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 // FIX THIS LINE: Change "bcrypt" to "bcryptjs"
-const bcrypt = require("bcryptjs"); // <--- THIS IS THE CORRECTED LINE
+const bcrypt = require("bcrypt"); // <--- THIS IS THE CORRECTED LINE
 
 const UserSchema = new mongoose.Schema({
     username: {
