@@ -1,11 +1,421 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Titillium+Web:wght@300;400;700&display=swap');
 
-/* Optional customizations */
-@layer base {
-  body {
-    background-color: #fff; /* Equivalent to bg-white */
-    color: #1f2937;         /* Equivalent to text-gray-800 */
-  }
+:root {
+    --dark-bg: #1A0D38;
+    --card-bg: rgba(30, 15, 60, 0.8);
+    --primary-accent: #00D4FF;
+    --secondary-accent: #FF5E00;
+    --text-color: #E0E0E0;
+    --label-color: #A0A0A0;
+    --border-glow: #00D4FF;
+    --input-bg: rgba(255, 255, 255, 0.08);
+    --button-gradient-start: #00A3CC;
+    --button-gradient-end: #00708C;
+    --error-color: #FF6B6B;
+    --network-error-bg: rgba(255, 69, 0, 0.25);
+    --network-error-border: #FF4500;
+    --success-color: #6BFF8C;
+}
+
+/* Base Styles (Desktop First Approach) */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%; /* Ensure full height for scrolling context */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    line-height: 1.6; /* Improved readability */
+}
+
+.split-screen-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh; /* Full viewport height on desktop */
+    background: radial-gradient(circle at 10% 20%, #2e0854 0%, #1a0d38 80%);
+}
+
+.animation-panel {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50%;
+}
+
+.full-animation {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50%;
+    padding: 40px; /* More padding on desktop */
+    box-sizing: border-box;
+    /* Allow scrolling on this panel if content is too tall */
+    overflow-y: auto;
+}
+
+.dashboard-panel {
+    background-color: rgba(30, 15, 60, 0.8);
+    backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(0, 212, 255, 0.2);
+    flex-direction: column;
+}
+
+.dashboard-wrapper {
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px; /* Slightly wider on desktop for better use of space */
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-height: 90vh; /* Constrain height on desktop */
+    overflow-y: auto; /* Allow scrolling if dashboard content is large */
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3),
+                0 0 60px rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.dashboard-content {
+    margin-bottom: 30px;
+}
+
+.dashboard-content h2 {
+    color: var(--primary-accent);
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+}
+
+.dashboard-content p {
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-bottom: 30px;
+}
+
+.logout-button {
+    margin-top: 30px;
+    background: linear-gradient(45deg, var(--secondary-accent), #c24b00);
+    box-shadow: 0 5px 20px rgba(255, 94, 0, 0.4);
+}
+
+.logout-button:hover {
+    background: linear-gradient(45deg, #FF6E00, #E04B00);
+    box-shadow: 0 8px 25px rgba(255, 94, 0, 0.6);
+}
+
+.login-signup-card {
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 40px; /* More padding on desktop */
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3),
+                0 0 60px rgba(0, 212, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    max-width: 500px; /* Slightly wider on desktop */
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+    position: relative;
+    z-index: 2;
+    max-height: 90vh; /* Constrain height on desktop */
+    overflow-y: auto; /* Allow scrolling for forms if content is too large */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card-header h2 {
+    color: var(--primary-accent);
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+}
+
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: var(--label-color);
+    font-weight: bold;
+}
+
+.input-group input,
+.input-group select { /* Apply general input styles to select too */
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 15px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 10px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 1.1em;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 5px rgba(0, 212, 255, 0.1);
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.5), inset 0 0 8px rgba(0, 212, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.primary-button {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(45deg, var(--button-gradient-start), var(--button-gradient-end));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.3em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.primary-button:hover {
+    background: linear-gradient(45deg, #00AFFF, #008CBB);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+.footer-links {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: var(--label-color);
+}
+
+.footer-links a {
+    color: var(--primary-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #00EFFF;
+    text-decoration: underline;
+}
+
+.footer-links span {
+    margin: 0 10px;
+}
+
+.message-display {
+    margin-top: 20px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+    display: block;
+    animation: fadeAndScaleIn 0.4s ease-out;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.message-display.success {
+    background-color: rgba(107, 255, 140, 0.15);
+    color: var(--success-color);
+    border: 1px solid rgba(107, 255, 140, 0.3);
+}
+
+.message-display.error {
+    background-color: var(--network-error-bg);
+    color: var(--error-color);
+    border: 2px solid var(--network-error-border);
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1em;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes fadeAndScaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Dropdown specific styles - kept for consistency, merged with input styles above */
+.input-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23A0A0A0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
+.input-group select option {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    padding: 10px;
+}
+
+
+/* ---------------------------------------------------------------------------------- */
+/* Mobile Specific Styles - Max-width 900px (Tablets in portrait, larger phones)     */
+/* ---------------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .split-screen-container {
+        flex-direction: column; /* Stack panels vertically */
+        height: auto; /* Allow content to dictate height, enable scrolling for entire page */
+        min-height: 100vh; /* Ensure it takes at least full viewport height */
+    }
+
+    body {
+        align-items: flex-start; /* Align content to top for better scrolling experience */
+    }
+
+    .animation-panel {
+        min-width: 100%;
+        height: 35vh; /* Give animation a fixed percentage height on top */
+        min-height: 200px; /* Minimum height for animation */
+    }
+
+    .form-panel {
+        min-width: 100%;
+        /* flex: 1; will make it take remaining space, or define a specific height */
+        height: auto; /* Let content determine height */
+        padding: 15px; /* Reduced padding for smaller screens */
+        justify-content: flex-start; /* Align form content to top within its panel */
+        overflow-y: visible; /* Let form content scroll within document flow */
+    }
+
+    .login-signup-card,
+    .dashboard-wrapper {
+        padding: 25px; /* Reduced padding inside the cards */
+        border-radius: 15px;
+        max-height: none; /* No max height, allow full content to display and scroll */
+        width: 100%; /* Take full width of its container (minus padding) */
+        margin: 0; /* Remove any desktop-centric margins */
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.2), /* Slightly less intense shadow */
+                    0 0 40px rgba(0, 212, 255, 0.08);
+    }
+
+    .card-header h2,
+    .dashboard-content h2 {
+        font-size: 1.8em; /* Smaller header font size */
+        margin-bottom: 20px;
+    }
+
+    .dashboard-content p {
+        font-size: 1em; /* Smaller body text */
+    }
+
+    .input-group {
+        margin-bottom: 20px; /* Reduced margin between input groups */
+    }
+
+    .input-group label {
+        margin-bottom: 8px; /* Reduced label margin */
+        font-size: 0.95em; /* Slightly smaller label font */
+    }
+
+    .input-group input,
+    .input-group select {
+        padding: 12px; /* Smaller padding for inputs */
+        font-size: 1em; /* Standard font size for inputs */
+    }
+
+    .primary-button {
+        padding: 15px; /* Smaller padding for buttons */
+        font-size: 1.1em; /* Smaller button text */
+    }
+
+    .footer-links {
+        margin-top: 25px; /* Reduced margin */
+        font-size: 0.85em; /* Smaller footer links */
+    }
+
+    .message-display {
+        font-size: 0.9em; /* Adjust message font size */
+        padding: 8px 12px; /* Adjust message padding */
+    }
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* Extra Small Screens (e.g., iPhone SE, older phones)                               */
+/* ---------------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .form-panel {
+        padding: 10px; /* Even less padding on very small screens */
+    }
+
+    .login-signup-card,
+    .dashboard-wrapper {
+        padding: 20px; /* Even less padding inside the cards */
+        border-radius: 10px; /* Slightly less rounded corners */
+    }
+
+    .card-header h2,
+    .dashboard-content h2 {
+        font-size: 1.5em; /* Even smaller headers */
+        margin-bottom: 15px;
+    }
+
+    .dashboard-content p {
+        font-size: 0.9em;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    .input-group input,
+    .input-group select {
+        padding: 10px; /* Even smaller input padding */
+        font-size: 0.9em;
+    }
+
+    .primary-button {
+        padding: 12px;
+        font-size: 1em;
+        margin-top: 15px;
+    }
+
+    .footer-links {
+        margin-top: 20px;
+        font-size: 0.8em;
+    }
 }
