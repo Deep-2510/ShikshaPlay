@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
@@ -9,7 +10,24 @@
     "nodemon": "^3.1.10",
     "socket.io": "^4.8.1"
   },
+=======
+  "name": "shikshaplay-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+>>>>>>> 0607afa1be8314bc070d0ac2c1c47633ed319b55
   "scripts": {
-    "dev": "nodemon ./src/app.js"
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^8.4.1" ,
+    "uuid": "^9.0.1"
   }
 }
