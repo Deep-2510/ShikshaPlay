@@ -3,6 +3,9 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import MessageDisplay from './MessageDisplay';
+import { useSelector } from "react-redux";
+import Lobby from "./components/Lobby";
+import Game from "./components/Game";
 
 const LOTTIE_ANIMATION_SRC = "https://lottie.host/8155042d-d7d2-495b-882b-93c3cb7a24c0/Z98gLbwJAu.lottie";
 
@@ -27,6 +30,9 @@ function App() {
     const [messageType, setMessageType] = useState('info');
     const [user, setUser] = useState(null); // State to hold logged-in user data
 
+
+    //NumberNinjs 
+    const status = useSelector((state) => state.game.status);
     // --- NEW: Check localStorage on initial load ---
     useEffect(() => {
         const storedUser = localStorage.getItem('currentUser');
@@ -157,6 +163,7 @@ function App() {
                 />
             </div>
 
+         status === "playing" ? <Game /> : <Lobby />;
             <div className="form-panel">
                 <div className="login-signup-card">
                     <div className="card-header">

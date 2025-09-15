@@ -419,3 +419,659 @@ body {
         font-size: 0.8em;
     }
 }
+
+
+/*Number Ninjs css*/
+@import "tailwindcss";
+
+/* @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap'); */
+
+/* Number Ninja Gaming Design System - Pure CSS */
+
+:root {
+  /* Core Gaming Palette */
+  --ninja-dark: 240 15% 8%;
+  --ninja-darker: 240 20% 5%;
+  --electric-blue: 220 100% 50%;
+  --electric-blue-light: 220 100% 70%;
+  --neon-green: 120 100% 50%;
+  --neon-green-light: 120 100% 70%;
+  --cyber-purple: 280 100% 60%;
+  --warning-orange: 35 100% 55%;
+  --danger-red: 0 100% 60%;
+  --gold: 45 100% 55%;
+  
+  /* Gaming Gradients */
+  --battle-gradient: linear-gradient(135deg, #0f0f23 0%, #1a1a40 50%, #2d2d5f 100%);
+  --neon-gradient: linear-gradient(45deg, hsl(var(--electric-blue)) 0%, hsl(var(--cyber-purple)) 100%);
+  --fire-gradient: linear-gradient(45deg, hsl(var(--warning-orange)) 0%, hsl(var(--danger-red)) 100%);
+  --victory-gradient: linear-gradient(45deg, hsl(var(--neon-green)) 0%, hsl(var(--gold)) 100%);
+  
+  /* Gaming Shadows */
+  --neon-glow: 0 0 20px hsl(var(--electric-blue) / 0.5);
+  --fire-glow: 0 0 20px hsl(var(--warning-orange) / 0.5);
+  --battle-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  color: hsl(var(--ninja-dark));
+  background-color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Main Game Arena */
+.game-arena {
+  min-height: 100vh;
+  background: var(--battle-gradient);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+/* Floating Background Numbers and Operators */
+.floating-numbers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.number-particle {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.1);
+  font-weight: 700;
+  animation: float 15s linear infinite;
+  font-family: 'Orbitron', monospace;
+  user-select: none;
+}
+
+/* Lightning Effects */
+.lightning-effects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.lightning {
+  position: absolute;
+  width: 2px;
+  height: 100vh;
+  background: linear-gradient(to bottom, transparent, hsl(var(--electric-blue)), transparent);
+  opacity: 0;
+  animation: lightning-strike 8s infinite;
+}
+
+.lightning-1 { left: 20%; animation-delay: 0s; }
+.lightning-2 { left: 60%; animation-delay: 3s; }
+.lightning-3 { left: 80%; animation-delay: 6s; }
+
+/* Main Battle Container */
+.battle-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: var(--battle-shadow), var(--neon-glow);
+  border: 2px solid hsl(var(--electric-blue) / 0.3);
+}
+
+/* Ninja Header */
+.ninja-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.ninja-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ninja-icon {
+  width: 2rem;
+  height: 2rem;
+  color: hsl(var(--electric-blue));
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.game-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 3rem;
+  font-weight: 900;
+  background: var(--neon-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px hsl(var(--electric-blue) / 0.5);
+}
+
+.ninja-subtitle {
+  color: hsl(var(--ninja-dark));
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.power-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--neon-gradient);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 700;
+  box-shadow: var(--neon-glow);
+  animation: battle-pulse 1.5s ease-in-out infinite;
+}
+
+.power-icon {
+  width: 1rem;
+  height: 1rem;
+  animation: spin 2s linear infinite;
+}
+
+/* Battle Stats */
+.battle-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 255, 0.9));
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  border: 2px solid hsl(var(--electric-blue) / 0.2);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-weight: 600;
+  color: hsl(var(--ninja-dark));
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--electric-blue));
+}
+
+/* Special Stat Effects */
+.timer-card .stat-icon {
+  color: hsl(var(--electric-blue));
+}
+
+.critical-time {
+  color: hsl(var(--danger-red)) !important;
+  animation: pulse-danger 1s ease-in-out infinite;
+}
+
+.timer-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 16px 16px;
+}
+
+.timer-fill {
+  height: 100%;
+  background: hsl(var(--electric-blue));
+  transition: all 0.3s ease;
+  border-radius: 0 0 16px 16px;
+}
+
+.timer-fill.critical,
+.timer-bar.critical .timer-fill {
+  background: hsl(var(--danger-red));
+  animation: pulse-glow 0.5s ease-in-out infinite;
+}
+
+.flame-icon {
+  color: hsl(var(--warning-orange));
+}
+
+.hot-streak {
+  color: hsl(var(--warning-orange)) !important;
+  animation: fire-pulse 1s ease-in-out infinite;
+}
+
+.streak-effect {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: flex;
+  gap: 2px;
+}
+
+.streak-particle {
+  animation: bounce 1s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+.trophy-icon {
+  color: hsl(var(--gold));
+}
+
+.score-gems {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 2px;
+}
+
+.gem {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+/* Challenge Arena */
+.challenge-arena {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.challenge-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.challenge-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(var(--ninja-dark));
+}
+
+.difficulty-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.difficulty-stars {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 5px hsl(var(--gold) / 0.5));
+}
+
+/* Equation Display */
+.equation-display {
+  position: relative;
+  margin: 2rem 0;
+}
+
+.equation-bg {
+  background: var(--neon-gradient);
+  border-radius: 20px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.equation-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.equation-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.equation-glow {
+  position: absolute;
+  inset: -10px;
+  background: var(--neon-gradient);
+  border-radius: 30px;
+  opacity: 0.3;
+  filter: blur(20px);
+  z-index: -1;
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Answer Section */
+.answer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.ninja-input {
+  width: 100%;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  text-align: center;
+  border: 3px solid hsl(var(--electric-blue) / 0.3);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: hsl(var(--ninja-dark));
+  transition: all 0.3s ease;
+}
+
+.ninja-input:focus {
+  outline: none;
+  border-color: hsl(var(--electric-blue));
+  box-shadow: var(--neon-glow);
+  transform: scale(1.02);
+}
+
+.ninja-input::placeholder {
+  color: hsl(var(--ninja-dark) / 0.5);
+}
+
+/* Battle Button */
+.battle-button {
+  position: relative;
+  padding: 1.5rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: var(--fire-gradient);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Orbitron', monospace;
+}
+
+.battle-button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--fire-glow), 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.battle-button:active {
+  transform: translateY(0) scale(1);
+}
+
+.battle-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-text {
+  position: relative;
+  z-index: 1;
+}
+
+.button-glow {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.battle-button:hover:not(:disabled) .button-glow {
+  opacity: 0.1;
+}
+
+/* Power-up Indicators */
+.powerup-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.powerup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+.powerup.active {
+  opacity: 1;
+  background: var(--victory-gradient);
+  color: white;
+  box-shadow: 0 0 20px hsl(var(--neon-green) / 0.5);
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.powerup.critical {
+  opacity: 1;
+  background: var(--fire-gradient);
+  color: white;
+  box-shadow: var(--fire-glow);
+  animation: pulse-danger 1s ease-in-out infinite;
+}
+
+.powerup-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* Battle Effects */
+.battle-effects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: hsl(var(--electric-blue));
+  border-radius: 50%;
+  animation: spark-fly 3s linear infinite;
+}
+
+.spark-1 { top: 20%; left: 10%; animation-delay: 0s; }
+.spark-2 { top: 60%; right: 10%; animation-delay: 1s; }
+.spark-3 { bottom: 30%; left: 30%; animation-delay: 2s; }
+.spark-4 { bottom: 10%; right: 40%; animation-delay: 0.5s; }
+
+/* Keyframe Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateY(-30px) rotate(180deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes lightning-strike {
+  0%, 90%, 100% {
+    opacity: 0;
+  }
+  92%, 94%, 96% {
+    opacity: 1;
+    box-shadow: 0 0 10px hsl(var(--electric-blue)), 0 0 20px hsl(var(--electric-blue));
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px currentColor);
+  }
+}
+
+@keyframes battle-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-danger {
+  0%, 100% {
+    color: hsl(var(--danger-red));
+    text-shadow: 0 0 5px hsl(var(--danger-red));
+  }
+  50% {
+    color: hsl(var(--danger-red) / 0.7);
+    text-shadow: 0 0 15px hsl(var(--danger-red));
+  }
+}
+
+@keyframes fire-pulse {
+  0%, 100% {
+    color: hsl(var(--warning-orange));
+    text-shadow: 0 0 5px hsl(var(--warning-orange));
+  }
+  50% {
+    color: hsl(var(--warning-orange) / 0.8);
+    text-shadow: 0 0 15px hsl(var(--warning-orange));
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes spark-fly {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200px) translateY(-100px);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2rem;
+  }
+  
+  .equation-text {
+    font-size: 2rem;
+  }
+  
+  .battle-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .challenge-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .powerup-indicators {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
