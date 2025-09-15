@@ -6,6 +6,7 @@ const http = require('http');
 const { Server } = require("socket.io");
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 // const bcryptjs=require("bcryptjs")
 
 // --- Basic Setup ---
@@ -58,7 +59,13 @@ const Game = mongoose.model('Game', GameSchema);
 
 // --- Express API Routes ---
 // Using the authentication routes from your routes/auth.js file
-app.use("/", require("./routes/auth.js")); // Make sure this path is correct
+// app.use("/", require("./routes/auth.js")); // Make sure this path is correct
+// --- API Routes ---
+app.use("/api/auth", require("./routes/auth.js"));
+app.use("/api/cases", require("./routes/village_science/case.js"));
+app.use("/api/cases/:caseId/evidence", require("./routes/village_science/evidence.js"));
+app.use("/api/experiments", require("./routes/village_science/experiment.js"));
+app.use("/api/cases/:caseId/hypotheses", require("./routes/village_science/hypothesis.js"));
 
 app.get('/', (req, res) => {
     res.send('Number Ninja Server is running!');
